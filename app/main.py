@@ -3,8 +3,7 @@ from sqlalchemy.exc import OperationalError
 from sqlmodel import SQLModel
 from app.database import engine
 from app.routers import cities,auth,ranking,ai,comparisons
-
-
+from app.middlewares.logging_middleware import log_request
 
 app = FastAPI()
 
@@ -26,3 +25,4 @@ app.include_router(auth.router)
 app.include_router(ranking.router)
 app.include_router(ai.router)
 app.include_router(comparisons.router)
+app.middleware("http") (log_request)
