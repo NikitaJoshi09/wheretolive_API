@@ -1,11 +1,15 @@
-from fastapi import APIRouter
+from fastapi import APIRouter,Depends
+from sqlmodel import Session
+from app.database import get_session
+from app.services.ranking_service import get_overall_rating
 
 router = APIRouter(prefix="/ranking",tags=["ranking"])
 
 
 @router.get("/")
-def overall_ranking():
-    return{"message":f"overall_ranking"}
+def overall_ranking(session:Session = Depends(get_session)):
+    return get_overall_rating(session)
+   
 
 @router.get("/state/{state}")
 def state_ranking(state:str):
